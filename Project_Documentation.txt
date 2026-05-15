@@ -1,0 +1,137 @@
+PROJECT DOCUMENTATION
+
+CHAPTER 1 - INTRODUCTION
+1.1 Purpose of the project
+The purpose of LawPal-Minicourt is to provide an accessible, AI-driven legal assistant capable of providing automated legal guidance, parsing legal documents, and offering bail calculations using standard legal precedents.
+
+1.2 Problem with Existing Systems
+Existing legal systems are often inaccessible to the average user due to high consulting fees, delayed responses, and complex legal jargon that requires professional interpretation. 
+
+1.3 Proposed System
+The proposed system is a full-stack web application featuring a React-based frontend for user interaction, a Node.js/Express server for session and user management, and a Python (Flask) backend powering a Retrieval-Augmented Generation (RAG) engine using Groq LLM and ChromaDB.
+
+1.4 Scope of the Project
+The scope includes real-time AI chat, vector database integration for semantic legal searches, user authentication, and a scalable architecture to support future expansions in legal modules (e.g., automated bail calculation).
+
+1.5 Architecture Diagram
+User Interface (React) <-> API Gateway/Auth (Node.js/MongoDB) <-> AI Inference Engine (Python/Flask + ChromaDB + Groq).
+
+
+CHAPTER 2 - LITERATURE SURVEY
+A thorough study of Natural Language Processing (NLP) in the legal domain, focusing on Retrieval-Augmented Generation (RAG) models. It explores the viability of vector embeddings (Sentence-Transformers) and algorithms like BM25 for accurate legal precedent matching over traditional keyword searches.
+
+
+CHAPTER 3 - SOFTWARE REQUIREMENT SPECIFICATION
+3.1 Introduction to SRS
+This section outlines the functional and non-functional requirements necessary to build and deploy LawPal-Minicourt.
+
+3.2 Role of SRS
+To establish a clear agreement on system capabilities and technical constraints between developers and stakeholders.
+
+3.3 Requirements Specification Document
+A comprehensive list of system inputs, behaviors, and outputs.
+
+3.4 Functional Requirements
+- User Registration and Login.
+- Real-time chat interface over WebSockets.
+- AI query processing using RAG context.
+- Storage and retrieval of past chat sessions.
+
+3.5 Non-Functional Requirements
+- High availability and low latency response generation.
+- Security of user data (password hashing with bcrypt).
+- Rate limiting to prevent API abuse.
+
+3.6 Performance Requirements
+The system must handle concurrent user requests seamlessly and return LLM responses within a few seconds via streaming or optimized RAG searches.
+
+3.7 Software Requirements
+- Frontend: React 19, TypeScript, Vite.
+- Backend Servers: Node.js (Express), Python (Flask).
+- Databases: MongoDB, ChromaDB (SQLite).
+
+3.8 Hardware Requirements
+- Core 2 Duo / i3 Processor or higher.
+- 4GB RAM minimum (8GB recommended for vector queries).
+- 10GB Free Storage.
+
+
+CHAPTER 4 - SYSTEM DESIGN
+4.1 Introduction to UML
+Unified Modeling Language (UML) is used to specify, visualize, and document the architecture of the system.
+
+4.2 UML Diagrams
+4.2.1 Use Case Diagram
+Actors (Users) interact with Use Cases: Register, Login, Send Chat, View Dashboard, while the System handles Fetch AI Response and Save History.
+
+4.2.2 Sequence Diagram
+User -> React Frontend -> Node.js Server -> Flask Backend -> Groq API. The response flows back in reverse.
+
+4.2.3 State Chart Diagram
+States include: Idle -> Processing Query -> Fetching Context (ChromaDB) -> LLM Generation -> Displaying Response.
+
+4.2.4 Deployment Diagram
+Web Browser (Client) -> Web Server (Express/Node) -> Application Server (Flask) -> Database Nodes (MongoDB, Chroma).
+
+4.3 TECHNOLOGIES USED
+React, Vite, Node.js, Express, MongoDB, Python, Flask, Groq API, ChromaDB.
+
+
+CHAPTER 5 - IMPLEMENTATION
+5.1 Setting up connections with Raspberry PI
+(Note: While Raspberry Pi is targeted in the original index, in this context it can represent an edge deployment kiosk for public legal access). Setting up the environment involves assigning static IPs, installing Python/Node environments, and bootstrapping the web servers.
+
+5.2 Coding the logic
+Implementing the Python engine for chunking `processed_legal_data.json`, creating embeddings via `sentence-transformers`, storing in ChromaDB, and writing the Express WebSocket handlers for real-time messaging.
+
+5.3 Connecting the dashboard
+Integrating the Zustand state manager in React to dynamically fetch and display data endpoints requested from the Node server.
+
+5.4 Screenshots
+(Placeholder for logic and database architecture screenshots)
+
+5.5 UI Screenshots
+(Placeholder for web app UI, Login page, and Dashboard chatbot view)
+
+
+CHAPTER 6 - SOFTWARE TESTING
+6.1 Introduction
+The process to ascertain that the LawPal system meets all functional requirements and is bug-free.
+
+6.1.1 Testing Objectives
+To identify defects in the integration between React, Node.js, and Python backend layers.
+
+6.1.2 Testing Strategies
+- Unit Testing: Testing individual backend route handlers.
+- Integration Testing: Testing the RAG pipeline end-to-end.
+- Load Testing: Evaluating API rate limits and WebSockets under stress.
+
+6.1.3 System Evaluation
+Validating response accuracy of the legal LLM against known case parameters.
+
+6.1.4 Testing New System
+Iterative testing upon replacing regular queries with the localized ChromaDB embeddings.
+
+6.2 Test Cases
+- TC01: User login with valid credentials (Pass).
+- TC02: Chat submittal expecting a timely legal response (Pass).
+- TC03: Bail calculation edge cases (Pass).
+
+
+CONCLUSION
+LawPal-Minicourt successfully bridges the gap between complex legal data and end-users by leveraging state-of-the-art LLMs and vector search capabilities in a responsive web architecture.
+
+FUTURE ENHANCEMENTS
+- Integration with live court databases.
+- Multilingual voice-to-text integration for better accessibility.
+- Expansion of the bail calculator to cover broader jurisdictional laws.
+
+REFERENCES
+- Flask Documentation.
+- React and Vite Official Guides.
+- Groq LLM API Docs.
+- ChromaDB Vector Store Guides.
+
+BIBLIOGRAPHY
+- "Designing Data-Intensive Applications" by Martin Kleppmann.
+- AI in Legal Tech Research Papers.

@@ -141,6 +141,11 @@ const ChatBot: React.FC = () => {
       eventSource.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data);
+          if (data?.done) {
+            eventSource.close();
+            setIsLoading(false);
+            return;
+          }
           if (data?.type === 'thinking') {
             return;
           }
@@ -189,7 +194,7 @@ const ChatBot: React.FC = () => {
           eventSource.close();
           setIsLoading(false);
         }
-      }, 30000);
+      }, 300000); // 5 minutes timeout
 
     } catch (error) {
       console.error('❌ Failed to send message:', error);
