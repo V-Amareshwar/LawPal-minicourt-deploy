@@ -141,6 +141,20 @@ const ChatBot: React.FC = () => {
       eventSource.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data);
+          if (data?.error) {
+            setMessages(prev => {
+              const updated = [...prev];
+              if (updated[updated.length - 1]?.role === 'assistant') {
+                updated[updated.length - 1].content = `❌ Connection Error: ${data.error}`;
+              } else {
+                updated.push({ role: 'assistant', content: `❌ Connection Error: ${data.error}` });
+              }
+              return updated;
+            });
+            eventSource.close();
+            setIsLoading(false);
+            return;
+          }
           if (data?.done) {
             eventSource.close();
             setIsLoading(false);

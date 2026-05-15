@@ -190,11 +190,20 @@ module.exports = (authenticateToken, checkDatabaseConnection, io, groqAxios) => 
 
             try {
                 const payload = { query: message.trim() };
+                const cleanFlaskUrl = FLASK_URL.replace(/\/+$/, ''); // Strip trailing slashes
+                
                 console.log(`📥 GET /api/chat/ - EventSource request from frontend`);
-                console.log(`🤖 SENDING TO FLASK MODEL (${FLASK_URL}/query)`);
+                console.log(`🤖 SENDING TO FLASK MODEL (${cleanFlaskUrl}/query)`);
                 console.log(`📦 Payload:`, JSON.stringify(payload, null, 2));
 
-                const flaskResponse = await axios.post(`${FLASK_URL}/query`, payload, { timeout: 60000 });
+                const flaskResponse = await axios.post(`${cleanFlaskUrl}/query`, payload, {
+                    timeout: 90000, // Give RAG enough time
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
 
                 console.log(`✅ RECEIVED FROM FLASK MODEL`);
                 console.log(`📦 Response Data:`, JSON.stringify(flaskResponse.data, null, 2));
